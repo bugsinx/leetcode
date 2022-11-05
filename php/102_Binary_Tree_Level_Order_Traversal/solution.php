@@ -23,33 +23,28 @@ class Solution {
             return [];
         }
         
-        $queue = [];        
-            
-        array_push($queue,$root);
-        
+        $root->level = 0;
+        $queue =array($root);        
+                
         $result_array = array();
-
-        $level_arrays[$root->val]=0;
-        
+              
         while(count($queue)>0) {            
             $current = array_shift($queue);                        
                         
-            if(isset($current)) {                                                                       
-                $current_level = $levels_arrays[$current->val];
-                
+            if(isset($current)) {                                                                                       
                 if(isset($current->left)) {
-                    array_push($queue,$current->left);
-                    $levels_arrays[$current->left->val]=$current_level + 1;
+                    $current->left->level = $current->level + 1;
+                    array_push($queue,$current->left);                    
                 }
                 if(isset($current->right)) {
-                    array_push($queue,$current->right);
-                    $levels_arrays[$current->right->val]=$current_level + 1;
+                    $current->right->level = $current->level + 1;
+                    array_push($queue,$current->right);                    
                 }
                 
-                if( empty($result_array[$current_level]) ) {
-                    $result_array[$current_level]=array();                    
+                if( empty($result_array[$current->level]) ) {
+                    $result_array[$current->level]=array();   
                 }
-                array_push($result_array[$current_level],$current->val);                                
+                array_push($result_array[$current->level],$current->val);                                
                 
             }
         }        
